@@ -2,13 +2,16 @@ function T = run_dubins_planner(data, v_a, R)
     num_pts = size(data, 1);
     waypoints_table = cell(num_pts-1, 6);
     
-    figure('Name', 'Task 2.1 - Dubins Path'); hold on; grid on; axis equal;
+    fig = figure('Name', 'Task 2.1 - Dubins Path'); 
+    set(fig, 'Color', 'w'); % Force White
+    hold on; grid on; axis equal;
+    set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k', 'GridColor', 'k');
     
     for i = 1:num_pts-1
         x_s = data(i,1); y_s = data(i,2); h_s = deg2rad(data(i,3));
         x_e = data(i+1,1); y_e = data(i+1,2); h_e = deg2rad(data(i+1,3));
         
-        % Calculate Circle Centers
+        % Center Geometry
         C_ex = [x_s + R*sin(h_s), y_s - R*cos(h_s)];
         C_en = [x_e + R*sin(h_e), y_e - R*cos(h_e)];
         
@@ -24,7 +27,7 @@ function T = run_dubins_planner(data, v_a, R)
         
         plot(x_s, y_s, 'ro', 'MarkerFaceColor', 'r');
         quiver(x_s, y_s, cos(h_s)*5, sin(h_s)*5, 'k', 'LineWidth', 1.5);
-        line([x_s, x_e], [y_s, y_e], 'Color', 'b', 'LineStyle', '--');
+        line([x_s, x_e], [y_s, y_e], 'Color', 'b', 'LineStyle', '--', 'LineWidth', 1);
     end
     T = cell2table(waypoints_table, 'VariableNames', ...
         {'Segment', 'Circle_Centres', 'Phi_ex_deg', 'Phi_en_deg', 'Exit_Loc', 'Entry_Loc'});
